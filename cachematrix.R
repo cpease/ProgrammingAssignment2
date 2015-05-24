@@ -1,5 +1,5 @@
 ## The first function creates additional objects that it associates with an input matrix, M; these are cached.
-## The second function checks to see if the inverse for an intertible matrix already exists, uses the cache if the inverse is already cached (thereby saving time by not re-computing), otherwise it will compute the inverse required. The inverse is then returned.
+## The second function checks to see if the inverse for an intertible matrix already exists in memory, uses the cache if the inverse is already cached (thereby saving time by not re-computing), otherwise it will compute the inverse required. The inverse is then returned.
 
 ## makeCacheMatrix: This function creates a special "matrix" object that can cache its inverse.
 ## Note: For this assignment we are allowed to assume m is invertible, if this were not the case, then test per commented out lines here
@@ -36,9 +36,18 @@ makeCacheMatrix <- function(M = matrix()){
 
 
 ## cacheSolve takes the List output from makeCacheMatrix.
-## If the required inverse has already been calculated and cached (and the original matrix has not changed), 
-## then cacheSolve retrieves the inverse from the cache.
-## If the required inverse is not in cache, or the original matrix has been changed, then cacheSolve will compute the required inverse, and cache it. 
+## If the required inverse has already been calculated and cached, then cacheSolve retrieves the inverse from the cache.
+## If the required inverse is not in cache, then cacheSolve will compute the required inverse, and cache it. 
+## If we can assume the original matrix is called myMatrix, and then execute: 
+##   temp = makeCacheMatrix(myMatrix) 
+##   cacheSolve(temp)
+## to get the inverse from cache if possible, otherwise recompute.
+## Given myMatrix has global scoping, we can test inside cacheSolve to see if the original matrix has changed after using makeCacheMatrix (and thus, that any cached inverse would no longer be valid), by
+## nesting the entire if statement with a second if statement
+## if(myMatrix!=x$get()){
+##      message("The orignal matrix has changed, computing the new inverse")
+##      myInv <- solve(myMatrix)}
+## else{DO THE ORIGINAL IF STATEMENT AS IN cacheSolve BELOW}
 
 cacheSolve <- function(x, ...) {
   myInv <- x$getinv()
