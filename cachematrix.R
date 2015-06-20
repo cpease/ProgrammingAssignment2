@@ -43,7 +43,7 @@ makeCacheMatrix <- function(M = matrix()){
 ##   cacheSolve(temp)
 ## to get the inverse from cache if possible, otherwise recompute.
 ## Given myMatrix has global scoping, we can test inside cacheSolve to see if the original matrix has changed after using makeCacheMatrix (and thus, that any cached inverse would no longer be valid), by
-## nesting the entire if statement with a second if statement
+## nesting the entire if statement with a second if statement.
 ## if(myMatrix!=x$get()){
 ##      message("The orignal matrix has changed, computing the new inverse")
 ##      myInv <- solve(myMatrix)}
